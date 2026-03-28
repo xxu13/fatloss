@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E44925ED2F77662500C4AB0B /* CycleEngine in Frameworks */ = {isa = PBXBuildFile; productRef = E44925EC2F77662500C4AB0B /* CycleEngine */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		E44925CE2F77662500C4AB0B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E44925ED2F77662500C4AB0B /* CycleEngine in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = fatloss;
 			packageProductDependencies = (
+				E44925EC2F77662500C4AB0B /* CycleEngine */,
 			);
 			productName = fatloss;
 			productReference = E44925BE2F77662400C4AB0B /* fatloss.app */;
@@ -195,6 +201,9 @@
 			);
 			mainGroup = E44925B52F77662400C4AB0B;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				E44925EB2F77662500C4AB0B /* XCLocalSwiftPackageReference */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E44925BF2F77662400C4AB0B /* Products */;
 			projectDirPath = "";
@@ -605,6 +614,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		E44925EB2F77662500C4AB0B /* XCLocalSwiftPackageReference */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Packages/CycleEngine;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E44925EC2F77662500C4AB0B /* CycleEngine */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E44925EB2F77662500C4AB0B /* XCLocalSwiftPackageReference */;
+			productName = CycleEngine;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E44925B62F77662400C4AB0B /* Project object */;
 }

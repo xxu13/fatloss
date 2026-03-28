@@ -1,0 +1,146 @@
+{
+  "version": 1,
+  "dataSource": "中国食物成分表 第6版",
+  "updatedAt": "2026-03-27",
+  "units": {
+    "weight": "g",
+    "nutrients": "per 100g raw edible portion",
+    "calories": "kcal"
+  },
+  "foods": [
+    {
+      "id": "chicken-breast",
+      "name": "去皮鸡胸肉",
+      "category": "protein",
+      "nutrientsPer100gRaw": {
+        "protein": 24.6,
+        "fat": 1.9,
+        "carb": 0,
+        "calories": 116
+      },
+      "cookedRatio": 0.75,
+      "cookedRatioNote": "100g生鸡胸肉煮熟后约75g",
+      "isCustom": false
+    },
+    {
+      "id": "lean-beef",
+      "name": "瘦牛肉",
+      "category": "protein",
+      "nutrientsPer100gRaw": {
+        "protein": 22.2,
+        "fat": 3.1,
+        "carb": 0,
+        "calories": 118
+      },
+      "cookedRatio": 0.70,
+      "cookedRatioNote": "100g生瘦牛肉煮熟后约70g",
+      "isCustom": false
+    },
+    {
+      "id": "fatty-beef",
+      "name": "肥瘦牛肉",
+      "category": "mixed",
+      "nutrientsPer100gRaw": {
+        "protein": 18.0,
+        "fat": 20.0,
+        "carb": 0,
+        "calories": 254
+      },
+      "cookedRatio": 0.70,
+      "cookedRatioNote": "100g生肥瘦牛肉煮熟后约70g",
+      "isCustom": false
+    },
+    {
+      "id": "fish-fillet",
+      "name": "去皮鱼肉",
+      "category": "protein",
+      "nutrientsPer100gRaw": {
+        "protein": 18.0,
+        "fat": 1.2,
+        "carb": 0,
+        "calories": 84
+      },
+      "cookedRatio": 0.85,
+      "cookedRatioNote": "100g生鱼肉煮熟后约85g",
+      "isCustom": false
+    },
+    {
+      "id": "whey-protein",
+      "name": "乳清蛋白粉",
+      "category": "protein",
+      "nutrientsPer100gRaw": {
+        "protein": 80.0,
+        "fat": 3.3,
+        "carb": 10.0,
+        "calories": 393
+      },
+      "cookedRatio": 1.0,
+      "cookedRatioNote": "不需要烹饪，冲泡即可",
+      "servingSize": 30,
+      "servingSizeUnit": "g",
+      "servingSizeNote": "1勺约30g",
+      "isCustom": false
+    },
+    {
+      "id": "dry-rice",
+      "name": "干大米（粳米）",
+      "category": "carb",
+      "nutrientsPer100gRaw": {
+        "protein": 7.4,
+        "fat": 0.8,
+        "carb": 77.2,
+        "calories": 346
+      },
+      "cookedRatio": 2.8,
+      "cookedRatioNote": "100g干米煮后约280g熟米饭",
+      "isCustom": false
+    },
+    {
+      "id": "dry-flour",
+      "name": "干小麦粉（标准粉）",
+      "category": "carb",
+      "nutrientsPer100gRaw": {
+        "protein": 11.2,
+        "fat": 1.5,
+        "carb": 73.6,
+        "calories": 354
+      },
+      "cookedRatio": 1.5,
+      "cookedRatioNote": "100g干面粉蒸后约150g馒头",
+      "isCustom": false
+    },
+    {
+      "id": "cooking-oil",
+      "name": "食用油",
+      "category": "fat",
+      "nutrientsPer100gRaw": {
+        "protein": 0,
+        "fat": 99.9,
+        "carb": 0,
+        "calories": 899
+      },
+      "cookedRatio": 1.0,
+      "cookedRatioNote": "烹饪用油，不需要换算",
+      "isCustom": false
+    }
+  ],
+  "equivalentSwaps": {
+    "protein": {
+      "description": "等蛋白互换（基于蛋白质含量）",
+      "baseFood": "chicken-breast",
+      "baseAmount": 100,
+      "equivalents": [
+        { "foodId": "lean-beef", "amount": 111, "note": "100g鸡胸肉 = 111g瘦牛肉" },
+        { "foodId": "fish-fillet", "amount": 137, "note": "100g鸡胸肉 = 137g鱼肉" }
+      ]
+    },
+    "carb": {
+      "description": "等碳水互换（基于碳水含量）",
+      "baseFood": "dry-rice",
+      "baseAmount": 100,
+      "equivalents": [
+        { "foodId": "dry-flour", "amount": 105, "note": "100g干大米 = 105g干面粉" }
+      ]
+    }
+  }
+}

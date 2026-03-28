@@ -1,0 +1,244 @@
+{
+  "version": 1,
+  "updatedAt": "2026-03-27",
+  "description": "动态调整规则引擎配置。CycleEngine 在每次生成计划前检查所有规则条件，满足时自动执行对应动作。规则按 priority 从高到低执行，高优先级规则先生效。",
+  "globalConfig": {
+    "proteinPerKg": 2.2,
+    "proteinPerKgNote": "减脂期蛋白质固定系数，所有规则不会修改蛋白质摄入",
+    "minCalories": 1800,
+    "minCaloriesNote": "安全底线，任何调整不得低于此热量",
+    "maxCarbReductionPerWeek": 50,
+    "maxCarbReductionPerWeekNote": "每周碳水最大下调量(g)，避免代谢骤降",
+    "maxCalorieAdjustPerWeek": 300,
+    "maxCalorieAdjustPerWeekNote": "每周热量最大调整幅度(kcal)，避免剧烈波动",
+    "weeklyWeightLossTarget": {
+      "min": 0.5,
+      "max": 1.0,
+      "unit": "kg",
+      "note": "健康减脂速度每周 0.5-1kg"
+    }
+  },
+  "rules": [
+    {
+      "id": "weight-plateau",
+      "name": "体重停滞规则",
+      "description": "连续 2 周体重无下降时，降低休息日热量",
+      "priority": 1,
+      "enabled": true,
+      "condition": {
+        "type": "weightTrend",
+        "metric": "weeklyWeightChange",
+        "operator": ">=",
+        "value": 0,
+        "duration": 2,
+        "durationUnit": "weeks",
+        "note": "连续 2 周体重变化 >= 0（未下降）"
+      },
+      "actions": [
+        {
+          "type": "adjustMacro",
+          "target": "restDays",
+          "field": "calories",
+          "adjustment": -200,
+          "adjustmentUnit": "kcal",
+          "note": "休息日总热量降低 200 大卡"
+        },
+        {
+          "type": "adjustMacro",
+          "target": "restDays",
+          "field": "fat",
+          "adjustment": -22,
+          "adjustmentUnit": "g",
+          "note": "通过降低脂肪实现热量下降（22g x 9 = 198kcal），碳水保持不变"
+        }
+      ],
+      "limits": {
+        "restDayMinCalories": 2100,
+        "restDayMinFat": 108,
+        "note": "休息日热量不低于 2100，脂肪不低于 108g"
+      },
+      "userMessage": "检测到体重连续 2 周未下降，已自动降低休息日热量 200 大卡"
+    },
+    {
+      "id": "training-fatigue",
+      "name": "训练乏力规则",
+      "description": "连续 2 次训练状态标记为乏力时，提高训练日碳水",
+      "priority": 2,
+      "enabled": true,
+      "condition": {
+        "type": "trainingFeedback",
+        "metric": "consecutiveFatigueCount",
+        "operator": ">=",
+        "value": 2,
+        "note": "连续 2 次训练反馈为乏力"
+      },
+      "actions": [
+        {
+          "type": "adjustMacro",
+          "target": "highCarbDays",
+          "field": "carb",
+          "adjustment": 40,
+          "adjustmentUnit": "g",
+          "note": "高碳日碳水提升 40g"
+        },
+        {
+          "type": "adjustMacro",
+          "target": "mediumHighCarbDays",
+          "field": "carb",
+          "adjustment": 35,
+          "adjustmentUnit": "g",
+          "note": "次高碳日碳水提升 35g"
+        },
+        {
+          "type": "adjustMacro",
+          "target": "trainingDays",
+          "field": "calories",
+          "adjustment": 200,
+          "adjustmentUnit": "kcal",
+          "note": "训练日总热量上调 200 大卡"
+        }
+      ],
+      "limits": {
+        "highCarbDayMaxCarb": 450,
+        "mediumHighCarbDayMaxCarb": 400,
+        "note": "高碳日碳水不超过 450g，次高碳日不超过 400g"
+      },
+      "userMessage": "检测到连续训练乏力，已自动提高训练日碳水摄入"
+    },
+    {
+      "id": "age-adjustment",
+      "name": "年龄修正规则",
+      "description": "年龄超过 30 岁时，全局下调热量",
+      "priority": 3,
+      "enabled": true,
+      "condition": {
+        "type": "userProfile",
+        "metric": "age",
+        "operator": ">",
+        "value": 30,
+        "note": "用户年龄超过 30 岁"
+      },
+      "actions": [
+        {
+          "type": "adjustMacro",
+          "target": "allDays",
+          "field": "calories",
+          "adjustment": -150,
+          "adjustmentUnit": "kcal",
+          "note": "所有日总热量下调 150 大卡"
+        },
+        {
+          "type": "adjustMacro",
+          "target": "allDays",
+          "field": "fat",
+          "adjustment": -17,
+          "adjustmentUnit": "g",
+          "note": "通过下调脂肪实现热量下降（17g x 9 = 153kcal），碳水保持不变"
+        }
+      ],
+      "limits": {
+        "note": "碳水和蛋白质不受年龄修正影响"
+      },
+      "userMessage": "已根据年龄自动调整每日热量目标"
+    },
+    {
+      "id": "hunger-insomnia",
+      "name": "饥饿/失眠缓解规则",
+      "description": "用户报告持续饥饿或失眠时，微调低碳日碳脂比例",
+      "priority": 4,
+      "enabled": true,
+      "condition": {
+        "type": "userFeedback",
+        "metric": "symptom",
+        "operator": "in",
+        "value": ["persistentHunger", "insomnia"],
+        "duration": 3,
+        "durationUnit": "days",
+        "note": "连续 3 天报告饥饿或失眠症状"
+      },
+      "actions": [
+        {
+          "type": "adjustMacro",
+          "target": "lowCarbDays",
+          "field": "carb",
+          "adjustment": 20,
+          "adjustmentUnit": "g",
+          "note": "低碳日碳水增加 20g"
+        },
+        {
+          "type": "adjustMacro",
+          "target": "lowCarbDays",
+          "field": "fat",
+          "adjustment": -10,
+          "adjustmentUnit": "g",
+          "note": "低碳日脂肪减少 10g，保持热量基本不变"
+        }
+      ],
+      "limits": {
+        "lowCarbDayMinFat": 100,
+        "lowCarbDayMaxCarb": 120,
+        "note": "低碳日脂肪不低于 100g，碳水不超过 120g"
+      },
+      "userMessage": "已微调低碳日饮食结构，缓解饥饿感"
+    },
+    {
+      "id": "rapid-weight-loss",
+      "name": "体重下降过快保护规则",
+      "description": "周均减重超过 1kg 时，适当回调热量避免肌肉流失",
+      "priority": 1,
+      "enabled": true,
+      "condition": {
+        "type": "weightTrend",
+        "metric": "weeklyWeightChange",
+        "operator": "<",
+        "value": -1.0,
+        "duration": 1,
+        "durationUnit": "weeks",
+        "note": "单周减重超过 1kg"
+      },
+      "actions": [
+        {
+          "type": "adjustMacro",
+          "target": "trainingDays",
+          "field": "calories",
+          "adjustment": 150,
+          "adjustmentUnit": "kcal",
+          "note": "训练日热量回调 150 大卡"
+        },
+        {
+          "type": "adjustMacro",
+          "target": "trainingDays",
+          "field": "carb",
+          "adjustment": 25,
+          "adjustmentUnit": "g",
+          "note": "训练日碳水增加 25g 保护训练状态"
+        }
+      ],
+      "limits": {
+        "note": "体重恢复正常下降速度后自动取消此调整"
+      },
+      "userMessage": "检测到体重下降过快，已自动提高训练日热量以保护肌肉"
+    }
+  ],
+  "ruleExecutionOrder": {
+    "description": "规则执行逻辑",
+    "steps": [
+      "1. 每周一计划生成前，检查所有 enabled=true 的规则",
+      "2. 按 priority 从小到大排序（1 = 最高优先级）",
+      "3. 依次检查 condition 是否满足",
+      "4. 满足则执行 actions，同时检查 limits 不被突破",
+      "5. 同一字段被多条规则修改时，取最后执行的结果",
+      "6. 规则冲突时（如同时需要加减碳水），高优先级规则覆盖低优先级",
+      "7. 调整结果显示 userMessage 通知用户"
+    ]
+  },
+  "dayTypeMapping": {
+    "description": "规则中 target 字段与训练日类型的映射",
+    "allDays": "所有 7 天",
+    "trainingDays": "dayIndex 0-4（周一至周五训练日）",
+    "restDays": "dayIndex 5-6（周六、周日休息日）",
+    "highCarbDays": "carbType = high",
+    "mediumHighCarbDays": "carbType = mediumHigh",
+    "lowCarbDays": "carbType = low"
+  }
+}

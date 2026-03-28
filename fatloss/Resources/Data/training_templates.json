@@ -1,0 +1,93 @@
+{
+  "version": 1,
+  "updatedAt": "2026-03-27",
+  "templates": [
+    {
+      "id": "bench-press-5day",
+      "name": "卧推专项 5 练计划",
+      "description": "适合有训练基础的中级训练者，以卧推为主项，配合全身力量训练",
+      "cycleDays": 7,
+      "trainingDaysPerWeek": 5,
+      "isCustom": false,
+      "dayPlans": [
+        {
+          "dayIndex": 0,
+          "dayLabel": "Day1",
+          "weekday": "周一",
+          "name": "胸肌力量日",
+          "description": "大重量卧推日，用 6 次 / 7 RPE 来练卧推",
+          "intensity": "high",
+          "carbType": "mediumHigh",
+          "carbCoefficient": 4.0,
+          "isRestDay": false
+        },
+        {
+          "dayIndex": 1,
+          "dayLabel": "Day2",
+          "weekday": "周二",
+          "name": "背部 + 二头日",
+          "description": "背部 + 二头常规训练",
+          "intensity": "medium",
+          "carbType": "medium",
+          "carbCoefficient": 3.0,
+          "isRestDay": false
+        },
+        {
+          "dayIndex": 2,
+          "dayLabel": "Day3",
+          "weekday": "周三",
+          "name": "卧推 12reps 日",
+          "description": "中等重量卧推日，用 12 次 / 9 RPE 练窄距卧推",
+          "intensity": "mediumLow",
+          "carbType": "mediumLow",
+          "carbCoefficient": 2.0,
+          "isRestDay": false
+        },
+        {
+          "dayIndex": 3,
+          "dayLabel": "Day4",
+          "weekday": "周四",
+          "name": "下肢 + 腹部日",
+          "description": "下肢 + 腹部复合训练（深蹲/硬拉为主项）",
+          "intensity": "veryHigh",
+          "carbType": "high",
+          "carbCoefficient": 4.5,
+          "isRestDay": false
+        },
+        {
+          "dayIndex": 4,
+          "dayLabel": "Day5",
+          "weekday": "周五",
+          "name": "胸肌爆发力日",
+          "description": "暂停卧推训练，突破力量黏着点，用 5 次 / 9 RPE",
+          "intensity": "mediumHigh",
+          "carbType": "mediumHigh",
+          "carbCoefficient": 3.5,
+          "isRestDay": false
+        },
+        {
+          "dayIndex": 5,
+          "dayLabel": "休息",
+          "weekday": "周六",
+          "name": "休息日",
+          "description": "完全休息/慢走 30 分钟轻有氧，禁止力量训练",
+          "intensity": "rest",
+          "carbType": "low",
+          "carbCoefficient": 0.9,
+          "isRestDay": true
+        },
+        {
+          "dayIndex": 6,
+          "dayLabel": "休息",
+          "weekday": "周日",
+          "name": "休息日",
+          "description": "完全休息/轻有氧，禁止力量训练",
+          "intensity": "rest",
+          "carbType": "low",
+          "carbCoefficient": 0.9,
+          "isRestDay": true
+        }
+      ]
+    }
+  ]
+}

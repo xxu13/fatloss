@@ -1,0 +1,380 @@
+{
+  "version": 1,
+  "updatedAt": "2026-03-27",
+  "description": "食谱模板，定义每日每餐的食材组合和生重克数。宏量素由 CycleEngine 根据 foods.json 动态计算，此文件不存储营养素数值。",
+  "mealTypes": {
+    "breakfast": "早餐",
+    "preworkout": "训练前加餐",
+    "lunch": "午餐（训练后）",
+    "dinner": "晚餐",
+    "nightSnack": "睡前加餐"
+  },
+  "templates": [
+    {
+      "id": "bench-5day-91kg",
+      "name": "卧推专项 5 练食谱（91kg 体重适配）",
+      "trainingTemplateId": "bench-press-5day",
+      "targetBodyWeight": 91,
+      "proteinPerKg": 2.2,
+      "dailyProteinTarget": 200,
+      "isCustom": false,
+      "weeklyCaloriesTarget": 18900,
+      "days": [
+        {
+          "dayIndex": 0,
+          "carbType": "mediumHigh",
+          "macroTargets": {
+            "calories": 3000,
+            "protein": 200,
+            "carb": 365,
+            "fat": 82
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐（训练前 2-3 小时）",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "dry-flour", "weightRaw": 130 },
+                { "foodId": "cooking-oil", "weightRaw": 12 }
+              ]
+            },
+            {
+              "mealType": "preworkout",
+              "label": "训练前加餐（训练前 1 小时）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 30 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "训练后午餐（训练后 30 分钟内）",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 150 },
+                { "foodId": "fish-fillet", "weightRaw": 100 },
+                { "foodId": "dry-rice", "weightRaw": 180 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 100 },
+                { "foodId": "fish-fillet", "weightRaw": 100 },
+                { "foodId": "dry-rice", "weightRaw": 120 },
+                { "foodId": "dry-flour", "weightRaw": 45 },
+                { "foodId": "cooking-oil", "weightRaw": 11 }
+              ]
+            },
+            {
+              "mealType": "nightSnack",
+              "label": "睡前加餐（饿了可选）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 15 }
+              ]
+            }
+          ]
+        },
+        {
+          "dayIndex": 1,
+          "carbType": "medium",
+          "macroTargets": {
+            "calories": 2700,
+            "protein": 200,
+            "carb": 270,
+            "fat": 91
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐（训练前 2-3 小时）",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "dry-flour", "weightRaw": 100 },
+                { "foodId": "cooking-oil", "weightRaw": 10 }
+              ]
+            },
+            {
+              "mealType": "preworkout",
+              "label": "训练前加餐（训练前 1 小时）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 30 },
+                { "foodId": "dry-rice", "weightRaw": 30 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "训练后午餐（训练后 30 分钟内）",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 200 },
+                { "foodId": "dry-rice", "weightRaw": 120 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "fish-fillet", "weightRaw": 150 },
+                { "foodId": "dry-flour", "weightRaw": 30 },
+                { "foodId": "dry-rice", "weightRaw": 70 },
+                { "foodId": "cooking-oil", "weightRaw": 13 }
+              ]
+            },
+            {
+              "mealType": "nightSnack",
+              "label": "睡前加餐（饿了可选）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 15 }
+              ]
+            }
+          ]
+        },
+        {
+          "dayIndex": 2,
+          "carbType": "mediumLow",
+          "macroTargets": {
+            "calories": 2500,
+            "protein": 200,
+            "carb": 180,
+            "fat": 110
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐（训练前 2-3 小时）",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 200 },
+                { "foodId": "whey-protein", "weightRaw": 30 },
+                { "foodId": "cooking-oil", "weightRaw": 10 }
+              ]
+            },
+            {
+              "mealType": "preworkout",
+              "label": "训练前加餐（训练前 1 小时）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 15 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "训练后午餐（训练后 30 分钟内）",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 250 },
+                { "foodId": "dry-rice", "weightRaw": 100 },
+                { "foodId": "cooking-oil", "weightRaw": 12 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 150 },
+                { "foodId": "fish-fillet", "weightRaw": 100 },
+                { "foodId": "dry-rice", "weightRaw": 50 },
+                { "foodId": "dry-flour", "weightRaw": 80 },
+                { "foodId": "cooking-oil", "weightRaw": 8 }
+              ]
+            }
+          ]
+        },
+        {
+          "dayIndex": 3,
+          "carbType": "high",
+          "macroTargets": {
+            "calories": 3200,
+            "protein": 200,
+            "carb": 410,
+            "fat": 84
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐（训练前 2-3 小时）",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "dry-flour", "weightRaw": 160 },
+                { "foodId": "cooking-oil", "weightRaw": 8 }
+              ]
+            },
+            {
+              "mealType": "preworkout",
+              "label": "训练前加餐（训练前 1 小时）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 30 },
+                { "foodId": "dry-rice", "weightRaw": 80 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "训练后午餐（训练后 30 分钟内）",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 200 },
+                { "foodId": "lean-beef", "weightRaw": 100 },
+                { "foodId": "dry-rice", "weightRaw": 160 },
+                { "foodId": "cooking-oil", "weightRaw": 12 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 100 },
+                { "foodId": "dry-flour", "weightRaw": 35 },
+                { "foodId": "dry-rice", "weightRaw": 100 },
+                { "foodId": "cooking-oil", "weightRaw": 9 }
+              ]
+            },
+            {
+              "mealType": "nightSnack",
+              "label": "睡前加餐（饿了可选）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 15 }
+              ]
+            }
+          ]
+        },
+        {
+          "dayIndex": 4,
+          "carbType": "mediumHigh",
+          "macroTargets": {
+            "calories": 2850,
+            "protein": 200,
+            "carb": 320,
+            "fat": 86
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐（训练前 2-3 小时）",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "dry-flour", "weightRaw": 120 },
+                { "foodId": "cooking-oil", "weightRaw": 8 }
+              ]
+            },
+            {
+              "mealType": "preworkout",
+              "label": "训练前加餐（训练前 1 小时）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 30 },
+                { "foodId": "dry-rice", "weightRaw": 50 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "训练后午餐（训练后 30 分钟内）",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 200 },
+                { "foodId": "dry-rice", "weightRaw": 130 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "fish-fillet", "weightRaw": 100 },
+                { "foodId": "dry-flour", "weightRaw": 40 },
+                { "foodId": "dry-rice", "weightRaw": 80 },
+                { "foodId": "cooking-oil", "weightRaw": 10 }
+              ]
+            },
+            {
+              "mealType": "nightSnack",
+              "label": "睡前加餐（饿了可选）",
+              "items": [
+                { "foodId": "whey-protein", "weightRaw": 15 }
+              ]
+            }
+          ]
+        },
+        {
+          "dayIndex": 5,
+          "carbType": "low",
+          "macroTargets": {
+            "calories": 2300,
+            "protein": 200,
+            "carb": 80,
+            "fat": 130
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 250 },
+                { "foodId": "whey-protein", "weightRaw": 30 },
+                { "foodId": "cooking-oil", "weightRaw": 10 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "午餐",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 150 },
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "dry-rice", "weightRaw": 50 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "lean-beef", "weightRaw": 100 },
+                { "foodId": "dry-rice", "weightRaw": 50 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            }
+          ]
+        },
+        {
+          "dayIndex": 6,
+          "carbType": "low",
+          "macroTargets": {
+            "calories": 2300,
+            "protein": 200,
+            "carb": 80,
+            "fat": 130
+          },
+          "meals": [
+            {
+              "mealType": "breakfast",
+              "label": "早餐",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 250 },
+                { "foodId": "whey-protein", "weightRaw": 30 },
+                { "foodId": "cooking-oil", "weightRaw": 10 }
+              ]
+            },
+            {
+              "mealType": "lunch",
+              "label": "午餐",
+              "items": [
+                { "foodId": "fatty-beef", "weightRaw": 150 },
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "dry-rice", "weightRaw": 50 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            },
+            {
+              "mealType": "dinner",
+              "label": "晚餐",
+              "items": [
+                { "foodId": "chicken-breast", "weightRaw": 150 },
+                { "foodId": "lean-beef", "weightRaw": 100 },
+                { "foodId": "dry-rice", "weightRaw": 50 },
+                { "foodId": "cooking-oil", "weightRaw": 15 }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
