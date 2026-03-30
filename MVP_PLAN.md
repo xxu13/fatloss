@@ -13,8 +13,8 @@
 | 0 | 项目脚手架 | 已完成 | Linux + macOS | CycleEngine Package + Xcode 项目均已创建 |
 | 1 | CycleEngine 核心引擎 | 已完成 | Linux | 50 个测试全部通过，Swift 6.3 |
 | 2 | SwiftData 数据层 | 已完成 | Linux | 模型 + 种子加载 + 数据仓库，需 macOS 编译验证 |
-| 3 | SwiftUI 界面 | 待开始 | macOS | 需要 Xcode |
-| 4 | 本地通知 | 待开始 | macOS | 需要 Xcode |
+| 3 | SwiftUI 界面 | 已完成 | Linux | 12 个文件，4 个 ViewModel + 8 个 View，需 macOS 编译验证 |
+| 4 | 本地通知 | 已完成 | Linux | NotificationManager，需 macOS 编译验证 |
 | 5 | 联调测试与打磨 | 待开始 | macOS | 需要 Xcode |
 
 ## 任务清单
@@ -81,35 +81,46 @@
   - ModelContainer schema 替换为 UserProfile + DailyPlan + WeightRecord
   - ContentView 清理模板代码，临时占位
 
-### Phase 3: SwiftUI 界面 -- 待开始（需 macOS 编译验证）
+### Phase 3: SwiftUI 界面 -- 已完成
 
-- [ ] 3.1 App 入口与导航（替换 ContentView.swift）
-  - TabView 底部导航：今日 / 周计划 / 体重 / 设置
-  - 首次启动引导填写基础数据
-- [ ] 3.2 用户档案页 Profile
-  - 录入/编辑：身高、体重、年龄、性别、三大项 PR
-  - 保存后自动触发 CycleEngine 重新计算
-- [ ] 3.3 今日计划页 Today（核心页面）
-  - 训练内容展示 + 标记完成 + 训练状态反馈（良好/乏力）
-  - 饮食清单：食材名称 + 生重（主）+ 熟重参考（副）
-  - 宏量素汇总条（P/C/F/kcal）
-  - 饮食完成按钮
-- [ ] 3.4 周计划页 Week
-  - 7 天卡片横向滚动/列表
-  - 训练名称、碳水类型标签、热量目标、完成状态
-- [ ] 3.5 体重记录页 Weight
-  - 手动输入体重（可选体脂率）
-  - Swift Charts 折线图趋势
-  - 标注每周一正式称重点
-- [ ] 3.6 设置页 Settings
-  - 编辑档案入口、提醒时间、关于页
+- [x] 3.0 ViewModel 层 -- 2026-03-30 Linux
+  - `ProfileViewModel`：档案表单状态管理、加载/保存
+  - `TodayViewModel`：今日计划加载、训练/饮食标记、餐食解析（食材名+生熟重+营养素）
+  - `WeekViewModel`：周计划查询、训练信息映射
+  - `WeightViewModel`：体重记录 CRUD、趋势数据、输入验证
+- [x] 3.1 App 入口与导航 -- 2026-03-30 Linux
+  - ContentView：无档案 -> ProfileSetupView / 有档案 -> MainTabView
+  - MainTabView：TabView 底部四标签（今日/周计划/体重/设置）
+- [x] 3.2 用户档案页 Profile -- 2026-03-30 Linux
+  - `ProfileSetupView`：三步引导（基本信息/身体数据/三大项PR），带步骤指示器
+  - `ProfileEditView`：完整表单编辑，导航栏取消/保存
+- [x] 3.3 今日计划页 Today -- 2026-03-30 Linux
+  - 宏量素总览卡片（碳水类型标签 + P/C/F 分列 + 总热量）
+  - 训练卡片（名称/描述/完成状态/反馈标记）
+  - 训练反馈 Sheet（良好/乏力/跳过）
+  - 饮食清单（逐餐展示：食材名+生重+熟重参考+单餐宏量素汇总）
+  - 一键标记饮食完成
+- [x] 3.4 周计划页 Week -- 2026-03-30 Linux
+  - 7 天计划卡片列表（TODAY 高亮、碳水类型标签、P/C/F 微标、训练/饮食完成状态）
+  - 周总计汇总（总蛋白质 + 总热量）
+- [x] 3.5 体重记录页 Weight -- 2026-03-30 Linux
+  - 最新体重大数字展示
+  - Swift Charts 折线趋势图（catmullRom 插值）
+  - 体重/体脂输入 Sheet
+  - 历史记录列表（日期/体脂/体重）
+- [x] 3.6 设置页 Settings -- 2026-03-30 Linux
+  - 个人档案概览 + 编辑入口
+  - 训练模板名称 + 食材库数量
+  - 版本/CycleEngine/数据来源信息
 
-### Phase 4: 本地通知 -- 待开始（需 macOS）
+### Phase 4: 本地通知 -- 已完成
 
-- [ ] 4.1 NotificationManager
-  - UNUserNotificationCenter
-  - 每日计划推送 + 训练前 1 小时加餐提醒
-  - 用户可调整提醒时间
+- [x] 4.1 NotificationManager -- 2026-03-30 Linux
+  - UNUserNotificationCenter 权限请求 + 状态检查
+  - `scheduleDailyReminder(hour:minute:)`：每日固定时间推送今日计划
+  - `schedulePreWorkoutReminder(trainingHour:)`：训练前 1 小时加餐提醒
+  - `cancelAll()`：取消全部通知
+  - 单例模式，与 SettingsView 集成（用户可调整提醒时间）
 
 ### Phase 5: 联调测试与打磨 -- 待开始（需 macOS）
 
@@ -156,12 +167,23 @@
       UserProfile.swift                 # 用户档案
       DailyPlan.swift                   # 每日计划（含餐食 JSON 存储）
       WeightRecord.swift                # 体重记录
-    ViewModels/                         # MVVM ViewModel（Phase 3 创建）
-    Views/                              # SwiftUI 界面（Phase 3 创建）
+    ViewModels/                         # MVVM ViewModel（已完成）
+      ProfileViewModel.swift            # 档案表单状态 + 加载/保存
+      TodayViewModel.swift              # 今日计划 + 餐食解析 + 训练标记
+      WeekViewModel.swift               # 周计划查询 + 训练映射
+      WeightViewModel.swift             # 体重记录 CRUD + 趋势数据
+    Views/                              # SwiftUI 界面（已完成）
+      MainTabView.swift                 # 底部四标签导航
+      WeekView.swift                    # 7天计划卡片列表
       Today/
+        TodayView.swift                 # 核心页面：宏量素+训练+饮食清单
       Profile/
+        ProfileSetupView.swift          # 首次启动三步引导
+        ProfileEditView.swift           # 档案编辑表单
       Weight/
+        WeightView.swift                # 体重记录+趋势图
       Settings/
+        SettingsView.swift              # 设置页
     Services/                           # 业务服务（已完成）
       SeedDataLoader.swift              # 种子数据加载（Bundle JSON -> 内存缓存）
       ModelMapping.swift                # SwiftData <-> CycleEngine 模型映射
@@ -226,13 +248,15 @@
 
 | 环境 | 用途 | 当前状态 |
 |------|------|----------|
-| Linux (Ubuntu 24.04, Swift 6.3) | CycleEngine 开发 + 测试 + Phase 2 代码编写 | Phase 1-2 已完成 |
+| Linux (Ubuntu 24.04, Swift 6.3) | CycleEngine 开发 + 测试 + Phase 2-3 代码编写 | Phase 1-3 已完成 |
 | macOS + Xcode | Xcode 项目 + SwiftUI + SwiftData 编译运行 | Phase 0 已完成，Phase 2 待编译验证 |
 | Apple Developer 账号 | 真机测试 + App Store 上架 | 待注册 |
 
 ## Git 提交历史
 
 ```
+fb8007c 实现 SwiftUI 界面层（Phase 3 完成）
+acae187 更新 MVP_PLAN.md：标记 Phase 2 已完成
 3549dcc 实现 SwiftData 数据层（Phase 2 完成）
 e109f0d 更新 README：同步 Xcode 项目实际结构和进度状态
 956182b 更新 MVP_PLAN.md：同步 Xcode 项目实际目录结构，标记 Phase 0 已完成
@@ -246,15 +270,17 @@ be290ac 实现 CycleEngine 核心引擎（Phase 1 完成）
 
 ## 下一步操作
 
-### 在 macOS 上验证 Phase 2
+### 在 macOS 上编译验证 Phase 2+3
 
 1. `git pull origin main`
-2. 打开 `fatloss.xcodeproj`，Xcode 会自动识别新增文件
-3. Build (Cmd+B) 验证 SwiftData 模型和 Services 编译通过
-4. 确认 CycleEngine import 正常工作
+2. 打开 `fatloss.xcodeproj`，Xcode 会自动识别所有新增文件（PBXFileSystemSynchronizedRootGroup）
+3. Build (Cmd+B) 验证 SwiftData 模型、Services、ViewModels、Views 编译通过
+4. 确认 CycleEngine import 和 Swift Charts import 正常工作
+5. 在模拟器中运行，验证首次启动引导流程和主界面
 
-### 开始 Phase 3（SwiftUI 界面）
+### 开始 Phase 5（联调测试与打磨）
 
-1. 替换 `ContentView.swift` 为 TabView 导航
-2. 创建 ViewModel 层（TodayViewModel / ProfileViewModel / WeightViewModel）
-3. 逐页实现：Profile -> Today -> Week -> Weight -> Settings
+1. CycleEngine + SwiftData + UI 全链路联调
+2. 验证 7 天循环计划数据准确性
+3. UI 适配不同 iPhone 尺寸
+4. App Icon + 启动屏
