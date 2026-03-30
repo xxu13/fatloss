@@ -26,31 +26,50 @@
 
 ```
 fatloss/
-  fatloss.xcodeproj/                # Xcode 项目
-  fatloss/                          # iOS App 源码
-    fatlossApp.swift                # App 入口
-    Resources/Data/                 # JSON 种子数据
-      foods.json                   # 食材库（8 种食材，含完整营养素）
-      training_templates.json      # 训练计划模板
-      meal_templates.json          # 7 天食谱模板
-      rules.json                   # 5 条动态调整规则
-    Models/                        # SwiftData 模型（开发中）
-    ViewModels/                    # MVVM ViewModel（开发中）
-    Views/                         # SwiftUI 界面（开发中）
-    Services/                      # 业务服务（开发中）
-  fatlossTests/                    # 单元测试
-  fatlossUITests/                  # UI 测试
+  fatloss.xcodeproj/                    # Xcode 项目（PBXFileSystemSynchronizedRootGroup）
+  fatloss/                              # iOS App 源码（20 个 Swift 文件）
+    fatlossApp.swift                    # App 入口（SwiftData ModelContainer）
+    ContentView.swift                   # 路由：首次启动引导 / 主界面
+    Models/                             # SwiftData 持久化模型
+      UserProfile.swift                 # 用户档案
+      DailyPlan.swift                   # 每日计划（含餐食 JSON）
+      WeightRecord.swift                # 体重记录
+    ViewModels/                         # MVVM 状态管理
+      ProfileViewModel.swift
+      TodayViewModel.swift
+      WeekViewModel.swift
+      WeightViewModel.swift
+    Views/                              # SwiftUI 界面
+      MainTabView.swift                 # 底部四标签导航
+      WeekView.swift                    # 周计划卡片列表
+      Today/TodayView.swift             # 核心页面：宏量素+训练+饮食清单
+      Profile/ProfileSetupView.swift    # 首次启动三步引导
+      Profile/ProfileEditView.swift     # 档案编辑
+      Weight/WeightView.swift           # 体重记录+趋势图
+      Settings/SettingsView.swift       # 设置页
+    Services/                           # 业务服务
+      SeedDataLoader.swift              # Bundle JSON 种子数据加载
+      ModelMapping.swift                # SwiftData <-> CycleEngine 模型映射
+      DataRepository.swift              # 数据仓库（CRUD + 计划生成 + 验算）
+      NotificationManager.swift         # 本地通知管理
+    Resources/Data/                     # JSON 种子数据
+      foods.json                        # 8 种食材，中国食物成分表第6版
+      training_templates.json           # 卧推专项 5 练计划
+      meal_templates.json               # 7 天食谱模板
+      rules.json                        # 5 条动态调整规则
+  fatlossTests/                         # 单元测试
+  fatlossUITests/                       # UI 测试
   Packages/
-    CycleEngine/                   # 核心计算引擎（独立 Swift Package，已完成）
+    CycleEngine/                        # 核心计算引擎（独立 Swift Package）
       Sources/CycleEngine/
-        Models/                    # 数据模型（Food, TrainingTemplate, MealTemplate 等）
-        Calculators/               # BMR, TDEE, 宏量素分配, 食谱生成, 食材互换
-        Validator/                 # 宏量素验算器
-        RulesEngine/               # 动态调整规则引擎
-      Tests/CycleEngineTests/      # 50 个单元测试，12 个套件
-  description.md                   # 架构设计文档
-  cycleplan.md                     # 碳循环饮食计划原始方案
-  MVP_PLAN.md                      # 开发进度管理
+        Models/                         # 数据模型
+        Calculators/                    # BMR, TDEE, 宏量素分配, 食谱生成, 食材互换
+        Validator/                      # 宏量素验算器
+        RulesEngine/                    # 动态调整规则引擎
+      Tests/CycleEngineTests/           # 50 个单元测试，12 个套件
+  description.md                        # 架构设计文档
+  cycleplan.md                          # 碳循环饮食计划原始方案
+  MVP_PLAN.md                           # 开发进度管理
 ```
 
 ## CycleEngine 核心引擎
@@ -91,6 +110,16 @@ swift test
 - 边界条件（零值、未知食物 ID、零营养素互换）
 - 全链路集成（BMR -> TDEE -> 分配 -> 生成 -> 验算）
 
+## App 界面
+
+| 页面 | 功能 |
+|------|------|
+| 首次启动引导 | 三步设置：性别年龄 -> 身高体重 -> 三大项 PR（可选） |
+| 今日计划 | 宏量素总览卡片 + 训练内容/反馈 + 饮食清单（生重/熟重/逐餐营养素） |
+| 周计划 | 7 天卡片列表，碳水类型标签，训练/饮食完成状态，周总热量 |
+| 体重记录 | 最新体重展示 + Swift Charts 趋势图 + 历史列表 |
+| 设置 | 档案编辑 + 训练模板/食材库信息 + 版本信息 |
+
 ## 碳循环逻辑
 
 基于 7 天训练周期，每天根据训练强度分配不同碳水系数：
@@ -121,10 +150,10 @@ swift test
 |-------|------|------|
 | 0 | 项目脚手架 | 已完成 |
 | 1 | CycleEngine 核心引擎 | 已完成 |
-| 2 | SwiftData 数据层 | 待开始 |
-| 3 | SwiftUI 界面 | 待开始 |
-| 4 | 本地通知 | 待开始 |
-| 5 | 联调测试与打磨 | 待开始 |
+| 2 | SwiftData 数据层 | 已完成 |
+| 3 | SwiftUI 界面 | 已完成 |
+| 4 | 本地通知 | 已完成 |
+| 5 | 联调测试与打磨 | 待开始（需 macOS） |
 
 ## 快速开始
 
@@ -137,8 +166,9 @@ cd fatloss
 cd Packages/CycleEngine
 swift test
 
-# iOS App 开发（需 macOS + Xcode）
-# 用 Xcode 打开 fatloss.xcodeproj，CycleEngine 已作为本地 Package 依赖链接
+# iOS App（需 macOS + Xcode）
+# 用 Xcode 打开 fatloss.xcodeproj，Build & Run
+# 首次启动会显示档案设置引导
 ```
 
 ## License
