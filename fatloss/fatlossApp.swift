@@ -1,10 +1,3 @@
-//
-//  fatlossApp.swift
-//  fatloss
-//
-//  Created by 郑楚舰 on 2026/3/28.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -12,7 +5,9 @@ import SwiftData
 struct fatlossApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            UserProfile.self,
+            DailyPlan.self,
+            WeightRecord.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
