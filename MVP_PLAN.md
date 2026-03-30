@@ -268,19 +268,84 @@ be290ac 实现 CycleEngine 核心引擎（Phase 1 完成）
 43d8f32 初始化项目：碳循环减脂计划助手架构与数据
 ```
 
-## 下一步操作
+## 下一步操作（切换到 macOS）
 
-### 在 macOS 上编译验证 Phase 2+3
+### Step 1: 拉取代码并首次编译
 
-1. `git pull origin main`
-2. 打开 `fatloss.xcodeproj`，Xcode 会自动识别所有新增文件（PBXFileSystemSynchronizedRootGroup）
-3. Build (Cmd+B) 验证 SwiftData 模型、Services、ViewModels、Views 编译通过
-4. 确认 CycleEngine import 和 Swift Charts import 正常工作
-5. 在模拟器中运行，验证首次启动引导流程和主界面
+```bash
+cd ~/path/to/fatloss    # 或 git clone git@github.com:xxu13/fatloss.git
+git pull origin main
+```
 
-### 开始 Phase 5（联调测试与打磨）
+1. 用 Xcode 打开 `fatloss.xcodeproj`
+2. Xcode 会自动识别所有新增文件（PBXFileSystemSynchronizedRootGroup，无需手动添加）
+3. 选择目标设备：iPhone 16 模拟器
+4. Build (Cmd+B)，修复可能的编译错误
+5. Run (Cmd+R)，验证 App 在模拟器中启动
 
-1. CycleEngine + SwiftData + UI 全链路联调
-2. 验证 7 天循环计划数据准确性
-3. UI 适配不同 iPhone 尺寸
-4. App Icon + 启动屏
+### Step 2: 首次编译可能遇到的问题
+
+| 问题 | 原因 | 解决方案 |
+|------|------|----------|
+| CycleEngine 编译错误 | swift-tools-version 6.0 要求 | 确保 Xcode 版本 >= 15.3 |
+| `import Charts` 找不到 | 需要 iOS 16+ 的 Swift Charts | 项目已设置 iOS 26.4，无需调整 |
+| Resources/Data/ 文件不在 Bundle 中 | Xcode 未正确加入 Bundle | 检查 Build Phases > Copy Bundle Resources |
+| SwiftData 模型编译错误 | @Model 宏需要 Swift 5.9+ | Xcode 15+ 默认支持 |
+
+### Step 3: Phase 5 联调测试清单
+
+**5.1 全链路联调（Cursor + Xcode 并用）**
+
+- [ ] 首次启动：完成三步引导 -> 自动生成 7 天计划
+- [ ] 今日页面：显示当日训练内容 + 饮食清单（含生重/熟重）
+- [ ] 宏量素卡片：P/C/F/kcal 数值与 CycleEngine 计算一致
+- [ ] 标记训练完成 + 训练反馈（良好/乏力）
+- [ ] 标记饮食完成
+- [ ] 周计划页：7 天卡片全部显示，TODAY 高亮
+- [ ] 体重记录：输入保存 -> 列表显示 -> 趋势图渲染
+- [ ] 设置页：档案信息正确显示 -> 编辑 -> 保存 -> 重新计算
+- [ ] App 重启后数据持久化正常（SwiftData）
+- [ ] CycleEngine 种子数据加载（foods/templates/rules JSON）
+
+**5.2 7 天循环计划数据验证**
+
+- [ ] Day0-Day6 宏量素目标与 `meal_templates.json` 一致
+- [ ] 每日碳水类型标签正确（高碳/次高碳/中碳/次低碳/低碳）
+- [ ] 饮食清单食材名称和克数正确
+- [ ] 生熟重换算比例正确
+- [ ] 周总热量约 18850 kcal（91kg 基准）
+
+**5.3 UI 适配测试**
+
+- [ ] iPhone 16 Pro Max (6.9")
+- [ ] iPhone 16 (6.1")
+- [ ] iPhone SE 3rd (4.7")
+- [ ] iPad（如适用）
+- [ ] Dynamic Type 大字体模式
+- [ ] Dark Mode 暗色模式
+
+**5.4 App Icon + 启动屏**
+
+- [ ] 设计 App Icon（1024x1024 PNG）
+- [ ] 在 `Assets.xcassets/AppIcon.appiconset/` 中配置
+- [ ] 启动屏配置（Info.plist 或 LaunchScreen.storyboard）
+
+### Step 4: 发现问题时的修复流程
+
+推荐使用 Cursor + Xcode 并排开发：
+
+1. **Xcode** 运行模拟器 -> 发现 UI 或逻辑问题
+2. **Cursor** 编辑代码 + AI 辅助修复
+3. 回到 **Xcode** Build & Run 验证修复
+4. 也可在 Cursor 终端中编译检查：
+   ```bash
+   xcodebuild -project fatloss.xcodeproj -scheme fatloss \
+     -destination 'platform=iOS Simulator,name=iPhone 16' build 2>&1 | tail -20
+   ```
+
+### Step 5: 完成后
+
+1. 全部测试通过后，提交最终代码
+2. 注册 Apple Developer 账号（$99/年）
+3. Archive -> App Store Connect -> TestFlight 内测
+4. 提交 App Store 审核
